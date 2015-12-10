@@ -2,7 +2,7 @@
  * dioda.h
  *
  *  Created on: 9 gru 2015
- *      Author: Luke
+ *      Author: varsheim
  */
 
 #ifndef DIODA_H_
