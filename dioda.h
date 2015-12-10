@@ -32,7 +32,7 @@
 
 volatile uint16_t counter;
 uint16_t blinking_freq;
-uint8_t iJustToggled;
+uint8_t justToggled;
 
 uint8_t isButtonPressed(uint8_t button_pin);
 void toggleLED(uint8_t LED_pin);

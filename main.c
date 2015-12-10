@@ -22,7 +22,7 @@ int main(void) {
 	PORT(BUTTON_PORT) |= BUTTON1_PIN;
 	PORT(BUTTON_PORT) |= BUTTON2_PIN;
 
-	iJustToggled = 0;
+	justToggled = 0;
 	counter = 1;
 	blinking_freq = 500;
 
@@ -39,16 +39,16 @@ int main(void) {
 			blinking_freq = 50;
         }
 
-		if(!iJustToggled && (counter % blinking_freq == 0)) {
+		if(!justToggled && (counter % blinking_freq == 0)) {
 			toggleLED(LED_PIN);
-			iJustToggled = 1;
+			justToggled = 1;
 		}
 	}
 }
 
 ISR(TIMER1_COMPA_vect) { 
     counter++;
-    iJustToggled = 0;
+    justToggled = 0;
     if(counter > 6000) {
         counter = 1;
     }
