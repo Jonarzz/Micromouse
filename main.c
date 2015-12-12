@@ -24,7 +24,7 @@ int main(void) {
 
 	justToggled = 0;
 	counter = 1;
-	blinking_freq = 500;
+	blinkingFreq = 500;
 
 	interrupt_init();
 	sei();
@@ -32,14 +32,14 @@ int main(void) {
 	while(1) {
 
 		if(isButtonPressed(BUTTON1_PIN)) {
-			blinking_freq = 2000;
+			blinkingFreq = 2000;
         }
 
 		if(isButtonPressed(BUTTON2_PIN)) {
-			blinking_freq = 50;
+			blinkingFreq = 50;
         }
 
-		if(!justToggled && (counter % blinking_freq == 0)) {
+		if(!justToggled && (counter % blinkingFreq == 0)) {
 			toggleLED(LED_PIN);
 			justToggled = 1;
 		}

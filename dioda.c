@@ -9,7 +9,9 @@
 
 uint8_t isButtonPressed(uint8_t button_pin) {
 	if(!(PIN(BUTTON_PORT) & button_pin)) {
-		_delay_ms(20);
+		// powtorne sprawdzenie wcisniecia przycisku po 20 ms w celu
+		// zniwelowania wplywu drgan mechanicznych
+		_delay_ms(BUTTON_DELAY);
 
 		if(!(PIN(BUTTON_PORT) & button_pin)) {
 			return 1;
