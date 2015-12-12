@@ -36,8 +36,8 @@
 #define BUTTON_DELAY 20
 
 volatile uint16_t counter;
+uint16_t lastTick;
 uint16_t blinkingFreq;
-uint8_t justToggled;
 
 uint8_t isButtonPressed(uint8_t button_pin);
 void toggleLED(uint8_t LED_pin);
