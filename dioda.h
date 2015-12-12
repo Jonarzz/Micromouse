@@ -25,7 +25,7 @@
 #define XP(x, y) (P##x##y)
 
 
-//porty na ktorych podlaczone sa rzeczy
+// porty na ktorych podlaczone sa komponenety
 #define LED_PORT C
 #define LED_PIN 1<<P(LED_PORT, 4)
 
@@ -35,11 +35,24 @@
 
 #define BUTTON_DELAY 20
 
-volatile uint16_t counter;
-uint16_t blinkingFreq;
-uint8_t justToggled;
+#define MAX_NUM_OF_CLICKS 4
 
-uint8_t isButtonPressed(uint8_t button_pin);
+// liczniki
+volatile uint16_t mainCounter;
+uint16_t maxMainCounter;
+uint8_t clickCounter;
+
+// zmienne liczbowe
+uint16_t blinkingFreq;
+volatile uint16_t timeBetweenClicks;
+
+// zmienne "boolean"
+uint8_t justToggled;
+uint8_t countTime;
+uint8_t countClicks;
+
+// deklaracja funkcji
+uint8_t wasButtonClicked(uint8_t button_pin);
 void toggleLED(uint8_t LED_pin);
 void interrupt_init();
 

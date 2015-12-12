@@ -7,15 +7,17 @@
 
 #include "dioda.h"
 
-uint8_t isButtonPressed(uint8_t button_pin) {
-	if(!(PIN(BUTTON_PORT) & button_pin)) {
+uint8_t wasButtonClicked(uint8_t button_pin) {
+	if (!(PIN(BUTTON_PORT) & button_pin)) {
 		// powtorne sprawdzenie wcisniecia przycisku po 20 ms w celu
 		// zniwelowania wplywu drgan mechanicznych
 		_delay_ms(BUTTON_DELAY);
 
-		if(!(PIN(BUTTON_PORT) & button_pin)) {
-			return 1;
+		while (!(PIN(BUTTON_PORT) & button_pin)) {
+			_delay_ms(BUTTON_DELAY);
         }
+
+		return 1;
 	}
     
 	return 0;

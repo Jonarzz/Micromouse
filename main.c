@@ -23,33 +23,66 @@ int main(void) {
 	PORT(BUTTON_PORT) |= BUTTON2_PIN;
 
 	justToggled = 0;
-	counter = 1;
+	countTime = 0;
+	countClicks = 0;
+	timeBetweenClicks = 0;
+	clickCounter = 0;
+
+	mainCounter = 1;
+	maxMainCounter = 6000;
 	blinkingFreq = 500;
 
 	interrupt_init();
 	sei();
 
-	while(1) {
+	while (1) {
 
-		if(isButtonPressed(BUTTON1_PIN)) {
-			blinkingFreq = 2000;
-        }
+		if (wasButtonClicked(BUTTON1_PIN)) {
+			clickCounter = 0;
+			timeBetweenClicks = 0;
+			countTime = 0;
+			countClicks = 1;
+			PORT(LED_PORT) |= LED_PIN;
+		}
 
-		if(isButtonPressed(BUTTON2_PIN)) {
-			blinkingFreq = 50;
-        }
+		if (wasButtonClicked(BUTTON2_PIN)) {
+			if (countClicks) {
+				if (clickCounter < MAX_NUM_OF_CLICKS) {
+					clickCounter++;
+				}
+				if (clickCounter == 1) {
+					countTime = 1;
+				}
+			}
+		}
 
-		if(!justToggled && (counter % blinkingFreq == 0)) {
+		if (clickCounter == MAX_NUM_OF_CLICKS) {
+			countTime = 0;
+			countClicks = 0;
+			clickCounter = 0;
+		}
+
+		if (countTime || countClicks) {
+			continue;
+		}
+
+		blinkingFreq = timeBetweenClicks / MAX_NUM_OF_CLICKS;
+		maxMainCounter = blinkingFreq * 10;
+
+		if (!justToggled && (mainCounter % blinkingFreq == 0)) {
 			toggleLED(LED_PIN);
 			justToggled = 1;
 		}
 	}
 }
 
-ISR(TIMER1_COMPA_vect) { 
-    counter++;
-    justToggled = 0;
-    if(counter > 6000) {
-        counter = 1;
-    }
+ISR(TIMER1_COMPA_vect) {
+	mainCounter++;
+	justToggled = 0;
+	if (mainCounter > maxMainCounter) {
+		mainCounter = 1;
+	}
+	if (countTime) {
+		timeBetweenClicks++;
+	}
 }
